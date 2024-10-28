@@ -25,12 +25,10 @@ function callAPI($method, $endpoint, $data = false) {
     return json_decode($response);
 }
 
-// Obter todas as pessoas
 function getAllPeople() {
     return callAPI('GET', '/people');
 }
 
-// Criar uma nova pessoa
 function createPerson($data) {
     return callAPI('POST', '/people', $data);
 }
@@ -43,7 +41,6 @@ function editPerson() {
     return callAPI('PUT', "people/{$id}");
 }
 
-// Obter tipos
 function getTypes() {
     return callAPI('GET', '/types');
 }

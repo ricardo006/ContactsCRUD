@@ -83,7 +83,6 @@
     <script>
         let contactIndex = 1;
 
-        // Função para adicionar novos contatos
         $('#addContact').on('click', function() {
             const newContact = `
                 <div class="contact form-group row align-items-end mb-3">
@@ -111,7 +110,6 @@
             contactIndex++;
         });
 
-        // Evento para remover um contato
         $(document).on('click', '.removeContact', function() {
             $(this).closest('.contact').remove();
         });
@@ -137,7 +135,6 @@
                 }
             });
 
-            // Enviando a requisição para a API
             $.ajax({
                 url: 'http://localhost:8000/api/people',
                 method: 'POST',
@@ -173,7 +170,6 @@
                 },
                 error: function(xhr, status, error) {
                     alert('Erro ao criar pessoa: ' + error);
-                    // Exibindo
                     console.log(xhr.responseText);
                 }
             });
