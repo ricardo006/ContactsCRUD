@@ -40,6 +40,7 @@
         vertical-align: middle;
         opacity: 0.9;
         background: #3c096c;
+        font-family: Roboto;
     }
 
     .nav-link {

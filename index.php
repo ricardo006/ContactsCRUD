@@ -6,13 +6,14 @@ include('navbar.php');
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Responsividade -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SGC Contatos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .card-1, .card-2, .card-3 {
             border-radius: 20px;
             min-height: 450px;
+            font-family: Roboto;
         }
 
         .card-1:hover, .card-2:hover, .card-3:hover {
@@ -23,14 +24,14 @@ include('navbar.php');
         }
 
         .card-img-top {
-            border-top-left-radius: 20px; /* Arredonda a parte superior esquerda da imagem */
-            border-top-right-radius: 20px; /* Arredonda a parte superior direita da imagem */
+            border-top-left-radius: 20px; 
+            border-top-right-radius: 20px;
         }
 
         .card-body {
             position: relative;
             z-index: 1;
-            padding: 15px;
+            padding: 20px;
         }
 
         .btn-criar {
@@ -38,7 +39,6 @@ include('navbar.php');
             background: #1565c0;
             min-width: 120px;
             border: 0px !important;
-            font-weight: 600;
         }
 
         .btn-contatos {
@@ -54,6 +54,14 @@ include('navbar.php');
             color: #263238;
             min-width: 120px;
             border: 0px !important;
+        }
+        
+        .btn-criar:hover {
+            border-radius: 20px;
+            background: #1565c0;
+            border: 2px solid #e0fbfc;
+            min-width: 120px;
+            font-weight: 600;
         }
 
         .btn-contatos:hover {
@@ -78,7 +86,7 @@ include('navbar.php');
     <div class="container mt-5">
         <div class="row mt-4">
             <div class="col-md-4">
-                <div class="card card-1">
+                <div class="card card-1 mb-4">
                     <img src="./img/card1.png" class="card-img-top" alt="..." height="250px">
                     <div class="card-body">
                         <h5 class="card-title">Criar nova pessoa</h5>

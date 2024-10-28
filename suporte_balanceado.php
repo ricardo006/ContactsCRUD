@@ -5,7 +5,7 @@ include('navbar.php');
 function isValidBrackets($str) {
     $stack = [];
     
-    $bracketMap = [
+    $mapaColchetes = [
         ')' => '(',
         '}' => '{',
         ']' => '['
@@ -14,10 +14,10 @@ function isValidBrackets($str) {
     for ($i = 0; $i < strlen($str); $i++) {
         $char = $str[$i];
 
-        if (array_key_exists($char, $bracketMap)) {
+        if (array_key_exists($char, $mapaColchetes)) {
             $topElement = empty($stack) ? '#' : array_pop($stack);
 
-            if ($topElement !== $bracketMap[$char]) {
+            if ($topElement !== $mapaColchetes[$char]) {
                 return false;
             }
         } else {
@@ -42,7 +42,7 @@ function isValidBrackets($str) {
     <div class="container mt-5">
         <a href="index.php" class="btn btn-secondary">
             <i class="bi bi-arrow-left"></i>
-            &nbsp;Voltar
+            &nbsp; Voltar
         </a>
 
         <h2 class="mt-4">Verificação de Colchetes</h2>
