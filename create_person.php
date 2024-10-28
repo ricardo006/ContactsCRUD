@@ -41,13 +41,12 @@
                 <div class="contact form-group row align-items-end mb-3">
                     <div class="col-md-5">
                         <label for="tipo">Tipo:</label>
-                        <select class="form-control" name="contacts[0][type]" required>
+                        <select class="form-control contact-type" name="contacts[0][type]" required>
                             <option value="">Selecione um tipo</option>
                             <?php
-                            // Função que retorna os tipos - em api.php
                             $tipos = getTypes();
                             foreach ($tipos as $tipo) {
-                                echo "<option value='{$tipo->type}'>{$tipo->type}</option>"; // Acessando 'type'
+                                echo "<option value='{$tipo->type}'>{$tipo->type}</option>";
                             }
                             ?>
                         </select>
@@ -55,7 +54,7 @@
 
                     <div class="col-md-5">
                         <label for="valor">Valor:</label>
-                        <input type="text" class="form-control" name="contacts[0][value]" required>
+                        <input type="text" class="form-control contact-value" name="contacts[0][value]" required>
                     </div>
                     <div class="col-md-2 text-right">
                         <button type="button" class="btn btn-danger shadow removeContact">
@@ -79,16 +78,35 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <script>
         let contactIndex = 1;
 
+        // Função para definir a máscara ou tipo do campo com base na seleção
+        function updateMaskAndType(element) {
+            const valueField = $(element).closest('.contact').find('.contact-value');
+            const selectedType = $(element).val();
+
+            // Limpa o campo valor e remove máscaras antigas
+            valueField.val('').unmask();
+
+            if (selectedType === 'Telefone') {
+                valueField.mask('(00) 00000-0000').attr('type', 'text');
+            } else if (selectedType === 'Email') {
+                valueField.unmask().attr('type', 'email');
+            } else {
+                valueField.unmask().attr('type', 'text');
+            }
+        }
+
+        // Função para adicionar novo contato com select de tipo
         $('#addContact').on('click', function() {
             const newContact = `
                 <div class="contact form-group row align-items-end mb-3">
                     <div class="col-md-5">
                         <label for="tipo">Tipo:</label>
-                        <select class="form-control" name="contacts[${contactIndex}][type]" required>
+                        <select class="form-control contact-type" name="contacts[${contactIndex}][type]" required>
                             <option value="">Selecione um tipo</option>
                             <?php
                             foreach ($tipos as $tipo) {
@@ -99,10 +117,12 @@
                     </div>
                     <div class="col-md-5">
                         <label for="valor">Valor:</label>
-                        <input type="text" class="form-control" name="contacts[${contactIndex}][value]" required>
+                        <input type="text" class="form-control contact-value" name="contacts[${contactIndex}][value]" required>
                     </div>
                     <div class="col-md-2 text-right">
-                        <button type="button" class="btn btn-danger shadow removeContact"><i class="bi bi-trash"></i> &nbsp; Excluir</button>
+                        <button type="button" class="btn btn-danger shadow removeContact">
+                            <i class="bi bi-trash"></i> &nbsp; Excluir
+                        </button>
                     </div>
                 </div>
             `;
@@ -110,11 +130,17 @@
             contactIndex++;
         });
 
+        // Atualiza a máscara quando o tipo de contato é alterado
+        $(document).on('change', '.contact-type', function() {
+            updateMaskAndType(this);
+        });
+
+        // Remove o contato
         $(document).on('click', '.removeContact', function() {
             $(this).closest('.contact').remove();
         });
 
-        // Manipulação do envio do formulário
+        // Envio do formulário via AJAX
         $('#createPersonForm').on('submit', function(event) {
             event.preventDefault();
 
@@ -142,14 +168,12 @@
                 data: JSON.stringify(data),
                 success: function(response) {
                     alert('Pessoa criada com sucesso!');
-                    console.log(response);
-                    // Limpa o formulário após o sucesso
                     $('#createPersonForm')[0].reset();
                     $('#contacts').empty().append(`
                         <div class="contact form-group row align-items-end mb-3">
                             <div class="col-md-5">
                                 <label for="tipo">Tipo:</label>
-                                <select class="form-control" name="contacts[0][type]" required>
+                                <select class="form-control contact-type" name="contacts[0][type]" required>
                                     <option value="">Selecione um tipo</option>
                                     <?php
                                     foreach ($tipos as $tipo) {
@@ -160,17 +184,18 @@
                             </div>
                             <div class="col-md-5">
                                 <label for="valor">Valor:</label>
-                                <input type="text" class="form-control" name="contacts[0][value]" required>
+                                <input type="text" class="form-control contact-value" name="contacts[0][value]" required>
                             </div>
                             <div class="col-md-2 text-right">
-                                <button type="button" class="btn btn-danger removeContact">Excluir</button>
+                                <button type="button" class="btn btn-danger shadow removeContact">
+                                    <i class="bi bi-trash3"></i> &nbsp; Excluir
+                                </button>
                             </div>
                         </div>
                     `);
                 },
                 error: function(xhr, status, error) {
                     alert('Erro ao criar pessoa: ' + error);
-                    console.log(xhr.responseText);
                 }
             });
         });
